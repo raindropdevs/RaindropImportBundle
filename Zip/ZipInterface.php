@@ -33,4 +33,13 @@ interface ZipInterface
      * @api
      */
     public function getMedia();
+
+    /**
+     * Adds a resource.
+     *
+     * @param string The path to the resource file
+     *
+     * @api
+     */
+    public function addResource($resource);
 }
