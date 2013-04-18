@@ -20,7 +20,7 @@ class ZipCatalogue implements ZipCatalogueInterface
      *
      * @api
      */
-    public function __construct($locale, array $zips = array())
+    public function __construct($locale = 'en', array $zips = array())
     {
         $this->locale = $locale;
         $this->zips = $zips;

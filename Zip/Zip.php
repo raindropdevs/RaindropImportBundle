@@ -16,7 +16,7 @@ class Zip implements ZipInterface
      *
      * @api
      */
-    public function __construct(array $resources, $media, $config = null)
+    public function __construct(array $resources = array(), $media = null, $config = null)
     {
         $this->resources = $resources;
         $this->media = $media;
@@ -61,5 +61,25 @@ class Zip implements ZipInterface
     public function addResource($resource)
     {
         $this->resources[] = $resource;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     */
+    public function setConfig($config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     */
+    public function setMedia($media)
+    {
+        $this->media = $media;
     }
 }

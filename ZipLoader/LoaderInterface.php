@@ -6,9 +6,9 @@ use Raindrop\ImportBundle\ZipCatalogue;
 use Raindrop\ImportBundle\Exception\InvalidResourceException;
 
 /**
- * ZipLoaderInterface is the interface implemented by all zip loaders.
+ * LoaderInterface.
  */
-interface ZipLoaderInterface
+interface LoaderInterface
 {
     /**
      * Loads a zip that contains import datas.
