@@ -33,4 +33,15 @@ class ZipTest extends \PHPUnit_Framework_TestCase
         $zip = new Zip($this->resources, $this->media, $this->config);
         $this->assertEquals($this->media, $zip->getMedia());
     }
+
+    public function testAddResource()
+    {
+        $zip = new Zip($this->resources, $this->media, $this->config);
+        $zip->addResource(__DIR__.'/../fixtures/empty.csv');
+        $this->assertEquals(array(
+                __DIR__.'/../fixtures/resources.csv',
+                __DIR__.'/../fixtures/empty.csv'
+            ),
+            $zip->getResources());
+    }
 }

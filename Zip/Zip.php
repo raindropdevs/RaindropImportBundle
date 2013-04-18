@@ -52,4 +52,14 @@ class Zip implements ZipInterface
     {
         return $this->media;
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     */
+    public function addResource($resource)
+    {
+        $this->resources[] = $resource;
+    }
 }
