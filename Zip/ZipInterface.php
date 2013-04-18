@@ -8,9 +8,9 @@ namespace Raindrop\ImportBundle\Zip;
 interface ZipInterface
 {
     /**
-     * Gets the file resource to be imported.
+     * Gets the file resources to be imported.
      *
-     * @return string The path to the resource file
+     * @return string The array of resource's paths
      *
      * @api
      */
