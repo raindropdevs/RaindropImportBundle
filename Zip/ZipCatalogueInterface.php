@@ -2,12 +2,10 @@
 
 namespace Raindrop\ImportBundle\Zip;
 
-use Symfony\Component\Config\Resource\ResourceInterface;
-
 /**
  * ZipCatalogueInterface
  */
-interface ZipCatalogueInterface 
+interface ZipCatalogueInterface
 {
     /**
      * Gets the catalogue locale.
@@ -17,7 +15,7 @@ interface ZipCatalogueInterface
      * @api
      */
     public function getLocale();
-    
+
     /**
      * Gets the categories.
      *
@@ -25,8 +23,8 @@ interface ZipCatalogueInterface
      *
      * @api
      */
-    public function getCategories();  
-    
+    public function getCategories();
+
     /**
      * Gets the zip files within a given category.
      *
@@ -38,5 +36,48 @@ interface ZipCatalogueInterface
      *
      * @api
      */
-    public function all($category = null);    
+    public function all($category = null);
+
+    /**
+     * Sets a zip.
+     *
+     * @param string $id       The zip id
+     * @param string $zip      The zip
+     * @param string $category The category name
+     *
+     * @api
+     */
+    public function set($id, $zip, $category);
+
+    /**
+     * Gets a zip.
+     *
+     * @param string $id       The zip id
+     * @param string $category The category name
+     *
+     * @return string The zip
+     *
+     * @api
+     */
+    public function get($id, $category);
+
+    /**
+     * Sets zips for a given category.
+     *
+     * @param array  $zips     An array of zips
+     * @param string $category The category name
+     *
+     * @api
+     */
+    public function replace($zips, $category);
+
+    /**
+     * Adds zip for a given category.
+     *
+     * @param array  $zips     An array of zips
+     * @param string $category The domain name
+     *
+     * @api
+     */
+    public function add($zips, $category);
 }

@@ -15,20 +15,53 @@ class ZipCatalogueTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('en', $catalogue->getLocale());
     }
-    
+
     public function testGetCategories()
     {
-        $catalogue = new ZipCatalogue('en', array('domain1' => array(), 'domain2' => array()));
+        $catalogue = new ZipCatalogue('en', array('category1' => array(), 'category2' => array()));
 
-        $this->assertEquals(array('domain1', 'domain2'), $catalogue->getCategories());
-    }   
-    
+        $this->assertEquals(array('category1', 'category2'), $catalogue->getCategories());
+    }
+
     public function testAll()
     {
-        $catalogue = new ZipCatalogue('en', $zips = array('domain1' => array('foo' => 'foo'), 'domain2' => array('bar' => 'bar')));
+        $catalogue = new ZipCatalogue('en', $zips = array('category1' => array('foo' => 'foo'), 'category2' => array('bar' => 'bar')));
 
-        $this->assertEquals(array('foo' => 'foo'), $catalogue->all('domain1'));
-        $this->assertEquals(array(), $catalogue->all('domain88'));
+        $this->assertEquals(array('foo' => 'foo'), $catalogue->all('category1'));
+        $this->assertEquals(array(), $catalogue->all('category88'));
         $this->assertEquals($zips, $catalogue->all());
-    }    
+    }
+
+    public function testGetSet()
+    {
+        $catalogue = new ZipCatalogue('en', array('category1' => array('foo' => 'foo'), 'category2' => array('bar' => 'bar')));
+        $catalogue->set('foo1', 'foo1', 'category1');
+
+        $this->assertEquals('foo', $catalogue->get('foo', 'category1'));
+        $this->assertEquals('foo1', $catalogue->get('foo1', 'category1'));
+    }
+
+    public function testAdd()
+    {
+        $catalogue = new ZipCatalogue('en', array('category1' => array('foo' => 'foo'), 'category2' => array('bar' => 'bar')));
+        $catalogue->add(array('foo1' => 'foo1'), 'category1');
+
+        $this->assertEquals('foo', $catalogue->get('foo', 'category1'));
+        $this->assertEquals('foo1', $catalogue->get('foo1', 'category1'));
+
+        $catalogue->add(array('foo' => 'bar'), 'category1');
+        $this->assertEquals('bar', $catalogue->get('foo', 'category1'));
+        $this->assertEquals('foo1', $catalogue->get('foo1', 'category1'));
+
+        $catalogue->add(array('foo' => 'bar'), 'category88');
+        $this->assertEquals('bar', $catalogue->get('foo', 'category88'));
+    }
+
+    public function testReplace()
+    {
+        $catalogue = new ZipCatalogue('en', array('category1' => array('foo' => 'foo'), 'category2' => array('bar' => 'bar')));
+        $catalogue->replace($messages = array('foo1' => 'foo1'), 'category1');
+
+        $this->assertEquals($messages, $catalogue->all('category1'));
+    }
 }

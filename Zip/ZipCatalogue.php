@@ -16,7 +16,7 @@ class ZipCatalogue implements ZipCatalogueInterface
      * Constructor.
      *
      * @param string $locale The locale
-     * @param array  $zips   An array of zip files classified by domain
+     * @param array  $zips   An array of zip files classified by category
      *
      * @api
      */
@@ -25,7 +25,7 @@ class ZipCatalogue implements ZipCatalogueInterface
         $this->locale = $locale;
         $this->zips = $zips;
     }
-    
+
     /**
      * {@inheritdoc}
      *
@@ -34,8 +34,8 @@ class ZipCatalogue implements ZipCatalogueInterface
     public function getLocale()
     {
         return $this->locale;
-    }    
-    
+    }
+
     /**
      * {@inheritdoc}
      *
@@ -44,8 +44,8 @@ class ZipCatalogue implements ZipCatalogueInterface
     public function getCategories()
     {
         return array_keys($this->zips);
-    } 
-    
+    }
+
     /**
      * {@inheritdoc}
      *
@@ -58,5 +58,55 @@ class ZipCatalogue implements ZipCatalogueInterface
         }
 
         return isset($this->zips[$category]) ? $this->zips[$category] : array();
-    }    
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     */
+    public function set($id, $zip, $category)
+    {
+        $this->add(array($id => $zip), $category);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     */
+    public function get($id, $category)
+    {
+        if (isset($this->zips[$category][$id])) {
+            return $this->zips[$category][$id];
+        }
+
+        return $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     */
+    public function replace($zips, $category)
+    {
+        $this->zips[$category] = array();
+
+        $this->add($zips, $category);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     */
+    public function add($zips, $category)
+    {
+        if (!isset($this->zips[$category])) {
+            $this->zips[$category] = $zips;
+        } else {
+            $this->zips[$category] = array_replace($this->zips[$category], $zips);
+        }
+    }
 }
