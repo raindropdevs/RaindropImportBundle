@@ -51,10 +51,10 @@ class ZipTest extends \PHPUnit_Framework_TestCase
         $zip->setConfig($this->config);
         $this->assertEquals($this->config, $zip->getConfig());
     }
-    
+
     public function testSetMedia()
     {
-        $zip = new Zip($this->resources);        
+        $zip = new Zip($this->resources);
         $zip->setMedia($this->media);
         $this->assertEquals($this->media, $zip->getMedia());
     }

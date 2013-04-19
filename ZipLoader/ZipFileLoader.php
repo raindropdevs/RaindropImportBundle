@@ -12,8 +12,8 @@ use Symfony\Component\Finder\Finder;
 class ZipFileLoader implements LoaderInterface
 {
     private $destination = '/tmp';
-    private $csv = 'csv';
-    private $yml = 'yml';
+    private $resource = 'csv';
+    private $config = 'yml';
     private $zip = 'zip';
 
     /**
@@ -32,7 +32,7 @@ class ZipFileLoader implements LoaderInterface
 
             // extract zip file
             $zip->extractTo($destination);
-            $zip->close();            
+            $zip->close();
 
             // new Zip obj
             $zipFile = new Zip;
@@ -47,10 +47,10 @@ class ZipFileLoader implements LoaderInterface
 
                 // add resources, config and media files to Zip obj
                 switch ($fileInfo['extension']) {
-                    case $this->csv:
+                    case $this->resource:
                         $zipFile->addResource($file->getPathName());
                         break;
-                    case $this->yml:
+                    case $this->config:
                         $zipFile->setConfig($file->getPathName());
                         break;
                     case $this->zip:
@@ -61,10 +61,8 @@ class ZipFileLoader implements LoaderInterface
                 }
             }
 
-            
-            $catalogue = new ZipCatalogue;
+            $catalogue = new ZipCatalogue($locale);
             $catalogue->add($zipFile, $category);
-//            var_dump($catalogue);
 
             return $catalogue;
         } else {

@@ -14,8 +14,7 @@ class ZipFileLoaderTest extends \PHPUnit_Framework_TestCase
         $zip = __DIR__.'/../fixtures/zip.zip';
         $zipLoader = new ZipFileLoader;
 
-        $this->assertInstanceOf('\Raindrop\ImportBundle\Zip\ZipCatalogue', $zipLoader->load($zip, 'en', 'category1'));
-//        $this->assertFalse($zipLoader->load($zip, 'en', 'category1'));
+        $this->assertInstanceOf('\Raindrop\ImportBundle\Zip\ZipCatalogue', $zipLoader->load($zip, 'es', 'category1'));
     }
 
     public function testLoadThatFails()
@@ -25,7 +24,7 @@ class ZipFileLoaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($zipLoader->load($zip, 'en', 'category1'));
     }
-    
+
     public function getZipCatalogueMock()
     {
         return $this->getMock('\Raindrop\ImportBundle\Zip\ZipCatalogue');
