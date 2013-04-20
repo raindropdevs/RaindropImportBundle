@@ -8,6 +8,7 @@
         <parameter key="raindrop_import.converter.class">Raindrop\ImportBundle\Util\CaseConverter</parameter>
         <parameter key="raindrop_import.reader.class">Raindrop\ImportBundle\Util\Reader</parameter>
         <parameter key="raindrop_import.field_retriever.class">Raindrop\ImportBundle\Util\FieldRetriever</parameter>
+        <parameter key="raindrop_import.importer.class">Raindrop\ImportBundle\Import\Importer</parameter>
     </parameters>
 
     <services>
@@ -20,6 +21,14 @@
         <service id="raindrop_import.field_retriever" class="%raindrop_import.field_retriever.class%">
             <argument type="service" id="annotation_reader" />
             <argument type="service" id="raindrop_import.converter" />
+        </service>
+
+        <service id="raindrop_import.importer" class="%raindrop_import.importer.class%">
+            <argument type="service" id="raindrop_import.reader" />
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="raindrop_import.converter" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>5</argument>
         </service>
     </services>
 </container>
