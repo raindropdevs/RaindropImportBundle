@@ -22,13 +22,5 @@
             <argument type="service" id="annotation_reader" />
             <argument type="service" id="raindrop_import.converter" />
         </service>
-
-        <service id="raindrop_import.importer" class="%raindrop_import.importer.class%">
-            <argument type="service" id="raindrop_import.reader" />
-            <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="raindrop_import.converter" />
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument>5</argument>
-        </service>
     </services>
 </container>

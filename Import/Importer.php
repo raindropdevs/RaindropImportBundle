@@ -10,6 +10,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+use Raindrop\ImportBundle\Import\ImportInterface;
+
 /**
  * Import csv to doctrine entity/document
  */
@@ -30,13 +32,14 @@ class Importer
      * @param ObjectManager $objectManager The Doctrine Object Manager
      * @param int           $batchSize     The batch size before flushing & clearing the om
      */
-    public function __construct(Reader $reader, EventDispatcherInterface $dispatcher, CaseConverter $caseConverter, ObjectManager $objectManager, $batchSize)
+    public function __construct(Reader $reader, EventDispatcherInterface $dispatcher, CaseConverter $caseConverter, ObjectManager $objectManager, $batchSize, ImportInterface $adapter)
     {
         $this->reader = $reader;
         $this->dispatcher = $dispatcher;
         $this->caseConverter = $caseConverter;
         $this->objectManager = $objectManager;
         $this->batchSize = $batchSize;
+        $this->adapter = $adapter;
     }
 
     /**
@@ -74,6 +77,7 @@ class Importer
             } else {
                 $this->addRow($row, $fields, false);
             }
+
             $this->importCount++;
         }
 
@@ -92,61 +96,9 @@ class Importer
      */
     private function addRow($row, $fields, $andFlush = true)
     {
-        // Create new entity
-        $entity = new $this->class();
+        $this->adapter->import($row);
 
-        if (in_array('Id', $fields)) {
-            $key = array_search('Id', $fields);
-            if ($this->metadata->hasField('legacyId')) {
-                $entity->setLegacyId($row[$key]);
-            }
-            unset($fields[$key]);
-        }
-
-        // loop through fields and set to row value
-        foreach ($fields as $k => $v) {
-            if ($this->metadata->hasField(lcfirst($v))) {
-                $entity->{'set'.$fields[$k]}($row[$k]);
-            } elseif ($this->metadata->hasAssociation(lcfirst($v))) {
-                $association = $this->metadata->associationMappings[lcfirst($v)];
-                switch ($association['type']) {
-                    case '1': // oneToOne
-                        //Todo:
-                        break;
-                    case '2': // manyToOne
-                        continue;
-                        // still needs work
-                        $joinColumnId = $association['joinColumns'][0]['name'];
-                        $legacyId = $row[array_search($this->caseConverter->toCamelCase($joinColumnId), $this->headers)];
-                        if ($legacyId) {
-                            try {
-                                $criteria = array('legacyId' => $legacyId);
-                                if ($this->useOwner) {
-                                    $criteria['owner'] = $this->owner->getId();
-                                }
-
-                                $associationClass = new \ReflectionClass($association['targetEntity']);
-                                if ($associationClass->hasProperty('legacyId')) {
-                                    $relation = $this->objectManager->getRepository($association['targetEntity'])->findOneBy($criteria);
-                                    if ($relation) {
-                                        $entity->{'set'.ucfirst($association['fieldName'])}($relation);
-                                    }
-                                }
-                            } catch (\Exception $e) {
-                                // legacyId does not exist
-                                // fail silently
-                            }
-                        }
-                        break;
-                    case '4': // oneToMany
-                        //TODO:
-                        break;
-                    case '8': // manyToMany
-                        //TODO:
-                        break;
-                }
-            }
-        }
+        $entity = $this->adapter->getObject();
 
         $this->dispatcher->dispatch('raindrop_import.row_added', new RowAddedEvent($entity, $row, $fields));
 
