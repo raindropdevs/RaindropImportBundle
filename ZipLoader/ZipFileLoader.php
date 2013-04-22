@@ -3,7 +3,6 @@
 namespace Raindrop\ImportBundle\ZipLoader;
 
 use Raindrop\ImportBundle\Zip\Zip;
-use Raindrop\ImportBundle\Zip\ZipCatalogue;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -61,10 +60,7 @@ class ZipFileLoader implements LoaderInterface
                 }
             }
 
-            $catalogue = new ZipCatalogue($locale);
-            $catalogue->add($zipFile, $category);
-
-            return $catalogue;
+            return $zipFile;
         } else {
             return false;
         }
