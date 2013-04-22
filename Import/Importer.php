@@ -26,11 +26,12 @@ class Importer
     protected $objectManager;
 
     /**
-     * @param CsvReader     $reader        The csv reader
-     * @param Dispatcher    $dispatcher    The event dispatcher
-     * @param CaseConverter $caseConverter The case Converter
-     * @param ObjectManager $objectManager The Doctrine Object Manager
-     * @param int           $batchSize     The batch size before flushing & clearing the om
+     * @param CsvReader       $reader        The csv reader
+     * @param Dispatcher      $dispatcher    The event dispatcher
+     * @param CaseConverter   $caseConverter The case Converter
+     * @param ObjectManager   $objectManager The Doctrine Object Manager
+     * @param int             $batchSize     The batch size before flushing & clearing the om
+     * @param ImportInterface $adapter       The adapter used to import a row
      */
     public function __construct(Reader $reader, EventDispatcherInterface $dispatcher, CaseConverter $caseConverter, ObjectManager $objectManager, $batchSize, ImportInterface $adapter)
     {
@@ -46,36 +47,29 @@ class Importer
      * Import a file
      *
      * @param File   $file         The csv file
-     * @param string $class        The class name of the entity
      * @param string $delimiter    The csv's delimiter
      * @param string $headerFormat The header case format
      *
      * @return boolean true if successful
      */
-    public function init($file, $class, $delimiter = ',', $headerFormat = 'title')
+    public function init($file, $delimiter = ',', $headerFormat = 'title')
     {
         $this->reader->open($file, $delimiter);
-        $this->class = $class;
-        $this->metadata = $this->objectManager->getClassMetadata($class);
         $this->headers = $this->caseConverter->convert($this->reader->getHeaders(), $headerFormat);
     }
 
     /**
      * Import the csv and persist to database
      *
-     * @param array $fields The fields to persist
-     *
      * @return true if successful
      */
-    public function import($fields)
+    public function import()
     {
-        $fields = array_unique($this->caseConverter->toPascalCase($fields));
-
         while ($row = $this->reader->getRow()) {
             if (($this->importCount % $this->batchSize) == 0) {
-                $this->addRow($row, $fields, true);
+                $this->addRow($row, true);
             } else {
-                $this->addRow($row, $fields, false);
+                $this->addRow($row, false);
             }
 
             $this->importCount++;
@@ -91,22 +85,20 @@ class Importer
      * Add Csv row to db
      *
      * @param array   $row      An array of data
-     * @param array   $fields   An array of the fields to import
      * @param boolean $andFlush Flush the ObjectManager
      */
-    private function addRow($row, $fields, $andFlush = true)
+    private function addRow($row, $andFlush = true)
     {
         $this->adapter->import($row);
 
         $entity = $this->adapter->getObject();
 
-        $this->dispatcher->dispatch('raindrop_import.row_added', new RowAddedEvent($entity, $row, $fields));
+        $this->dispatcher->dispatch('raindrop_import.row_added', new RowAddedEvent($entity, $row));
 
         $this->objectManager->persist($entity);
 
         if ($andFlush) {
             $this->objectManager->flush();
-            $this->objectManager->clear($this->class);
         }
     }
 

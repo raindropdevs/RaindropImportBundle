@@ -45,7 +45,7 @@ class ImporterTest extends \PHPUnit_Framework_TestCase
 
         $this->importer = new Importer($reader, $dispatcher, $caseConverter, $objectManager, 5, $import);
 
-        $this->importer->init(__DIR__ . '/../Fixtures/import.csv', 'Raindrop\ImportBundle\Tests\Fixtures\TestEntity', ',', 'title');
+        $this->importer->init(__DIR__ . '/../Fixtures/import.csv', ',', 'title');
     }
 
     /**
@@ -55,7 +55,7 @@ class ImporterTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             true,
-            $this->importer->import($this->fields)
+            $this->importer->import()
         );
 
         $this->assertEquals(

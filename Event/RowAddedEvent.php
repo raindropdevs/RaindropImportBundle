@@ -16,13 +16,11 @@ class RowAddedEvent extends Event
     /**
      * @param DoctrineObject $object The new object being persisted
      * @param array          $row    The row being imported
-     * @param array          $fields The mapped fields
      */
-    public function __construct($object, array $row, array $fields)
+    public function __construct($object, array $row)
     {
         $this->object = $object;
         $this->row = $row;
-        $this->fields = $fields;
     }
 
     /**
@@ -43,15 +41,5 @@ class RowAddedEvent extends Event
     public function getRow()
     {
         return $this->row;
-    }
-
-    /**
-     * Get mapped fields
-     *
-     * @return array
-     */
-    public function getFields()
-    {
-        return $this->fields;
     }
 }
