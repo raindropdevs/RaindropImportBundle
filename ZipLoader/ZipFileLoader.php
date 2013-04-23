@@ -10,7 +10,7 @@ use Symfony\Component\Finder\Finder;
  */
 class ZipFileLoader implements LoaderInterface
 {
-    private $destination = '/tmp';
+    private $destination = '/tmp/';
     private $resource = 'csv';
     private $config = 'yml';
     private $zip = 'zip';
