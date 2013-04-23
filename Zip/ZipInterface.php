@@ -60,4 +60,11 @@ interface ZipInterface
      * @api
      */
     public function setMedia($media);
+
+    /**
+     * Extracts a media file zip.
+     *
+     * @api
+     */
+    public function extractMedia();
 }

@@ -7,6 +7,8 @@ namespace Raindrop\ImportBundle\Zip;
  */
 class Zip implements ZipInterface
 {
+    private $destination = '/tmp/';
+
     /**
      * Constructor.
      *
@@ -81,5 +83,28 @@ class Zip implements ZipInterface
     public function setMedia($media)
     {
         $this->media = $media;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     */
+    public function extractMedia()
+    {
+        $zip = new \ZipArchive;
+
+        if ($zip->open($this->media) === TRUE) {
+
+            $mediaFileInfo = pathinfo($this->media);
+
+            $destination = $this->destination . $mediaFileInfo['filename'];
+
+            // extract media file
+            $zip->extractTo($destination);
+            $zip->close();
+        } else {
+            return false;
+        }
     }
 }
