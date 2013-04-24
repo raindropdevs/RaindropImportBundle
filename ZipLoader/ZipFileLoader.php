@@ -10,10 +10,26 @@ use Symfony\Component\Finder\Finder;
  */
 class ZipFileLoader implements LoaderInterface
 {
-    private $destination = '/tmp/';
-    private $resource = 'csv';
-    private $config = 'yml';
-    private $zip = 'zip';
+    private $destination;
+    private $resource;
+    private $config;
+    private $zip;
+
+    /**
+     * Constructor.
+     *
+     * @param string $destination
+     * @param string $csvExtension
+     * @param string $ymlExtension
+     * @param string $zipExtension
+     */
+    public function __construct($destination = '/tmp/', $csvExtension = 'csv', $ymlExtension = 'yml', $zipExtension = 'zip')
+    {
+        $this->destination = $destination;
+        $this->resource = $csvExtension;
+        $this->config = $ymlExtension;
+        $this->zip = $zipExtension;
+    }
 
     /**
      * {@inheritdoc}
