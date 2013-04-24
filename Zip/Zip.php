@@ -90,18 +90,14 @@ class Zip implements ZipInterface
      *
      * @api
      */
-    public function extractMedia()
+    public function extractMedia($path)
     {
         $zip = new \ZipArchive;
 
         if ($zip->open($this->media) === TRUE) {
 
-            $mediaFileInfo = pathinfo($this->media);
-
-            $destination = $this->destination . $mediaFileInfo['filename'];
-
             // extract media file
-            $zip->extractTo($destination);
+            $zip->extractTo($path);
             $zip->close();
         } else {
             return false;

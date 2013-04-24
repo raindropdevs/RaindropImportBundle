@@ -64,7 +64,9 @@ interface ZipInterface
     /**
      * Extracts a media file zip.
      *
+     * @param string The path to the media file zip
+     *
      * @api
      */
-    public function extractMedia();
+    public function extractMedia($path);
 }
