@@ -7,8 +7,6 @@ namespace Raindrop\ImportBundle\Zip;
  */
 class Zip implements ZipInterface
 {
-    private $destination = '/tmp/';
-
     /**
      * Constructor.
      *
