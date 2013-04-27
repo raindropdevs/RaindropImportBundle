@@ -70,10 +70,6 @@ class ZipFileLoader implements LoaderInterface
                         break;
                     case $this->zip:
                         $zipFile->setMedia($file->getPathName());
-
-                        // extract media files
-                        $path = $destination . '/media';
-                        $zipFile->extractMedia($path);
                         break;
                     default:
                         break;
