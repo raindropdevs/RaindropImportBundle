@@ -11,16 +11,18 @@ class RowAddedEvent extends Event
 {
     protected $object;
     protected $row;
-    protected $fields;
+    protected $config;
 
     /**
      * @param DoctrineObject $object The new object being persisted
      * @param array          $row    The row being imported
+     * @param array          $config The available configuration infos
      */
-    public function __construct($object, array $row)
+    public function __construct($object, array $row, array $config)
     {
         $this->object = $object;
         $this->row = $row;
+        $this->config = $config;
     }
 
     /**
@@ -41,5 +43,15 @@ class RowAddedEvent extends Event
     public function getRow()
     {
         return $this->row;
+    }
+
+    /**
+     * Get configuration infos
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 }
