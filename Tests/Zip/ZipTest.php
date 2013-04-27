@@ -12,7 +12,7 @@ class ZipTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->resources = array(__DIR__.'/../Fixtures/resources.csv');
-        $this->config = __DIR__.'/../Fixtures/resources.yml';
+        $this->config = array('foo' => 'bar');
         $this->media = __DIR__.'/../Fixtures/media.zip';
     }
 
@@ -42,13 +42,14 @@ class ZipTest extends \PHPUnit_Framework_TestCase
                 __DIR__.'/../Fixtures/resources.csv',
                 __DIR__.'/../Fixtures/empty.csv'
             ),
-            $zip->getResources());
+            $zip->getResources()
+        );
     }
 
     public function testSetConfig()
     {
         $zip = new Zip($this->resources, $this->media);
-        $zip->setConfig($this->config);
+        $zip->setConfig(__DIR__.'/../Fixtures/resources.yml');
         $this->assertEquals($this->config, $zip->getConfig());
     }
 

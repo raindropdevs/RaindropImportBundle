@@ -2,6 +2,8 @@
 
 namespace Raindrop\ImportBundle\Zip;
 
+use Symfony\Component\Yaml\Yaml;
+
 /**
  * Zip Class that represent the import datas.
  */
@@ -12,11 +14,11 @@ class Zip implements ZipInterface
      *
      * @param string $resources The file to be imported
      * @param string $media     The zip that contains media files
-     * @param string $config    The configuration file (YAML)
+     * @param string $config    The array with import configuration infos
      *
      * @api
      */
-    public function __construct(array $resources = array(), $media = null, $config = null)
+    public function __construct(array $resources = array(), $media = null, array $config = array())
     {
         $this->resources = $resources;
         $this->media = $media;
@@ -70,7 +72,7 @@ class Zip implements ZipInterface
      */
     public function setConfig($config)
     {
-        $this->config = $config;
+        $this->config = Yaml::parse($config);
     }
 
     /**
