@@ -23,7 +23,7 @@ class ZipFileLoaderTest extends \PHPUnit_Framework_TestCase
         $zip = __DIR__.'/../fixtures/zip.zip';
         $zipLoader = new ZipFileLoader;
 
-        $this->assertInstanceOf('\Raindrop\ImportBundle\Zip\Zip', $zipLoader->load($zip, 'es', 'category1'));
+        $this->assertInstanceOf('\Raindrop\ImportBundle\Zip\Zip', $zipLoader->load($zip));
     }
 
     public function testLoadThatFails()
@@ -31,6 +31,6 @@ class ZipFileLoaderTest extends \PHPUnit_Framework_TestCase
         $zip = __DIR__.'/../fixtures/wrong.zip';
         $zipLoader = new ZipFileLoader;
 
-        $this->assertFalse($zipLoader->load($zip, 'en', 'category1'));
+        $this->assertFalse($zipLoader->load($zip));
     }
 }

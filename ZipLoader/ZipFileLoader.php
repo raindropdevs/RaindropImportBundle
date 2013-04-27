@@ -36,7 +36,7 @@ class ZipFileLoader implements LoaderInterface
      *
      * @api
      */
-    public function load($resource, $locale, $category)
+    public function load($resource)
     {
         $zip = new \ZipArchive;
 
