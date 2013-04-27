@@ -70,7 +70,7 @@ class MockAdapter extends BaseAdapter
     /**
      * {@inheritDoc}
      */
-    public function import($row, $config)
+    public function import($row, array $config)
     {
     }
 }
