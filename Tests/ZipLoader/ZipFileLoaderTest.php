@@ -9,6 +9,15 @@ use Raindrop\ImportBundle\ZipLoader\ZipFileLoader;
  */
 class ZipFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        if (!extension_loaded('ZipArchive')) {
+            $this->markTestSkipped(
+              'The ZipArchive extension is not available.'
+            );
+        }
+    }
+
     public function testLoad()
     {
         $zip = __DIR__.'/../fixtures/zip.zip';
