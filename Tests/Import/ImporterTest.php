@@ -22,10 +22,6 @@ class ImporterTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $fields = array('id', 'field1', 'field2');
-
-        $this->fields = $fields;
-
         $caseConverter = new CaseConverter();
         $reader = new Reader();
 
@@ -43,7 +39,7 @@ class ImporterTest extends \PHPUnit_Framework_TestCase
         $import->expects($this->exactly(3))
             ->method('getObject');
 
-        $this->importer = new Importer($reader, $dispatcher, $caseConverter, $objectManager, 5, $import);
+        $this->importer = new Importer($reader, $dispatcher, $caseConverter, $objectManager, $import, 5);
 
         $this->importer->init(__DIR__ . '/../Fixtures/import.csv', ',', 'title');
     }

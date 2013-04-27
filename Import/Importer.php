@@ -24,23 +24,24 @@ class Importer
     protected $importCount = 0;
     protected $caseConverter;
     protected $objectManager;
+    protected $adapter;
 
     /**
      * @param CsvReader       $reader        The csv reader
      * @param Dispatcher      $dispatcher    The event dispatcher
      * @param CaseConverter   $caseConverter The case Converter
      * @param ObjectManager   $objectManager The Doctrine Object Manager
-     * @param int             $batchSize     The batch size before flushing & clearing the om
      * @param ImportInterface $adapter       The adapter used to import a row
+     * @param int             $batchSize     The batch size before flushing & clearing the om
      */
-    public function __construct(Reader $reader, EventDispatcherInterface $dispatcher, CaseConverter $caseConverter, ObjectManager $objectManager, $batchSize, ImportInterface $adapter)
+    public function __construct(Reader $reader, EventDispatcherInterface $dispatcher, CaseConverter $caseConverter, ObjectManager $objectManager, ImportInterface $adapter, $batchSize)
     {
         $this->reader = $reader;
         $this->dispatcher = $dispatcher;
         $this->caseConverter = $caseConverter;
         $this->objectManager = $objectManager;
-        $this->batchSize = $batchSize;
         $this->adapter = $adapter;
+        $this->batchSize = $batchSize;
     }
 
     /**
