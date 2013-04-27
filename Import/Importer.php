@@ -62,6 +62,26 @@ class Importer
     }
 
     /**
+    * Get the csv's header row
+    *
+    * @return array
+    */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+    * Get the csv's next row
+    *
+    * @return array
+    */
+    public function getRow()
+    {
+        return $this->reader->getRow();
+    }
+
+    /**
      * Import the csv and persist to database
      *
      * @return true if successful
