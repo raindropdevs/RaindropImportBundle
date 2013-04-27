@@ -70,7 +70,7 @@ class MockAdapter extends BaseAdapter
     /**
      * {@inheritDoc}
      */
-    public function import($xml)
+    public function import($row)
     {
     }
 }
