@@ -11,8 +11,9 @@ interface ImportInterface
      * Import a row
      *
      * @param object $row
+     * @param array  $config
      */
-    public function import($row);
+    public function import($row, $config);
 
     /**
      * Check validity

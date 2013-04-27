@@ -5,12 +5,9 @@ namespace Raindrop\ImportBundle\Import;
 use Raindrop\ImportBundle\Util\CaseConverter;
 use Raindrop\ImportBundle\Event\RowAddedEvent;
 use Raindrop\ImportBundle\Util\Reader;
-
-use Doctrine\Common\Persistence\ObjectManager;
-
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 use Raindrop\ImportBundle\Import\ImportInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Import csv to doctrine entity/document
@@ -25,6 +22,7 @@ class Importer
     protected $caseConverter;
     protected $objectManager;
     protected $adapter;
+    protected $config;
 
     /**
      * @param CsvReader       $reader        The csv reader
@@ -48,15 +46,19 @@ class Importer
      * Import a file
      *
      * @param File   $file         The csv file
+     * @param array  $config       The array with configuration infos
      * @param string $delimiter    The csv's delimiter
      * @param string $headerFormat The header case format
      *
      * @return boolean true if successful
      */
-    public function init($file, $delimiter = ',', $headerFormat = 'title')
+    public function init($file, array $config = array(), $delimiter = ',', $headerFormat = 'title')
     {
         $this->reader->open($file, $delimiter);
         $this->headers = $this->caseConverter->convert($this->reader->getHeaders(), $headerFormat);
+        // add file name to import configuration
+        $config['fileName'] = $this->reader->getFileName();
+        $this->config = $config;
     }
 
     /**
@@ -90,7 +92,7 @@ class Importer
      */
     private function addRow($row, $andFlush = true)
     {
-        $this->adapter->import($row);
+        $this->adapter->import($row, $this->config);
 
         $entity = $this->adapter->getObject();
 
