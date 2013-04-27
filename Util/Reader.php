@@ -12,6 +12,7 @@ class Reader
     protected $enclosure;
     protected $line;
     protected $headers;
+    protected $info;
 
     /**
      * Open a CSV file
@@ -28,6 +29,7 @@ class Reader
         $this->delimiter = $delimiter;
         $this->enclosure = $enclosure;
         $this->line = 0;
+        $this->info = pathinfo($file);
 
         if ($hasHeaders) {
             $this->headers = $this->getRow();
@@ -103,6 +105,16 @@ class Reader
         if (is_resource($this->handle)) {
             fclose($this->handle);
         }
+    }
+
+    /**
+     * Get the file name
+     *
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->info['filename'];
     }
 
 }
