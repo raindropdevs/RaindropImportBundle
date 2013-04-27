@@ -13,7 +13,7 @@ interface ImportInterface
      * @param object $row
      * @param array  $config
      */
-    public function import($row, $config);
+    public function import($row, array $config);
 
     /**
      * Check validity
