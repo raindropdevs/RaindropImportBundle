@@ -45,6 +45,9 @@ class ZipFileLoader implements LoaderInterface
             $zipFileInfo = pathinfo($resource);
             $destination = $this->destination . $zipFileInfo['filename'];
 
+            // delete old tmp files
+            $this->deleteDirectory($destination . DIRECTORY_SEPARATOR);
+
             // extract zip file
             $zip->extractTo($destination);
             $zip->close();
@@ -70,6 +73,10 @@ class ZipFileLoader implements LoaderInterface
                         break;
                     case $this->zip:
                         $zipFile->setMedia($file->getPathName());
+
+                        // extract media files
+                        $path = $destination . '/media';
+                        $zipFile->extractMedia($path);
                         break;
                     default:
                         break;
@@ -79,6 +86,23 @@ class ZipFileLoader implements LoaderInterface
             return $zipFile;
         } else {
             return false;
+        }
+    }
+
+    // remove all files/subfolders recursively from a directory
+    public function deleteDirectory($targ)
+    {
+        if (file_exists($targ)) {
+            if (is_dir($targ)) {
+                $files = glob($targ . '*', GLOB_MARK);
+                foreach ($files as $file) {
+                    var_dump($file);
+                    $this->deleteDirectory($file);
+                }
+                rmdir($targ);
+            } else {
+                unlink($targ);
+            }
         }
     }
 }
