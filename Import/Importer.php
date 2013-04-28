@@ -56,6 +56,10 @@ class Importer
     {
         $this->reader->open($file, $delimiter);
         $this->headers = $this->caseConverter->convert($this->reader->getHeaders(), $headerFormat);
+
+        // add file headers to import configuration
+        $config['headers'] = $this->headers;
+
         // add file name to import configuration
         $config['fileName'] = $this->reader->getFileName();
         $this->config = $config;
