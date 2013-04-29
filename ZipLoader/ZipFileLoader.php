@@ -96,7 +96,6 @@ class ZipFileLoader implements LoaderInterface
             if (is_dir($targ)) {
                 $files = glob($targ . '*', GLOB_MARK);
                 foreach ($files as $file) {
-                    var_dump($file);
                     $this->deleteDirectory($file);
                 }
                 rmdir($targ);
