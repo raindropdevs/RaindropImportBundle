@@ -25,7 +25,7 @@
         </service>
 
         <service id="raindrop_import.zip_file_loader" class="%raindrop_import.zip_file_loader.class%">
-            <argument>/tmp/</argument>
+            <argument>/tmp</argument>
             <argument>csv</argument>
             <argument>yml</argument>
             <argument>zip</argument>

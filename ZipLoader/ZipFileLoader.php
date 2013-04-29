@@ -23,7 +23,7 @@ class ZipFileLoader implements LoaderInterface
      * @param string $ymlExtension
      * @param string $zipExtension
      */
-    public function __construct($destination = '/tmp/', $csvExtension = 'csv', $ymlExtension = 'yml', $zipExtension = 'zip')
+    public function __construct($destination = '/tmp', $csvExtension = 'csv', $ymlExtension = 'yml', $zipExtension = 'zip')
     {
         $this->destination = $destination;
         $this->resource = $csvExtension;
@@ -42,8 +42,7 @@ class ZipFileLoader implements LoaderInterface
 
         if ($zip->open($resource) === TRUE) {
 
-            $zipFileInfo = pathinfo($resource);
-            $destination = $this->destination . $zipFileInfo['filename'];
+            $destination = $this->destination . DIRECTORY_SEPARATOR . 'zip';
 
             // delete old tmp files
             $this->deleteDirectory($destination . DIRECTORY_SEPARATOR);
