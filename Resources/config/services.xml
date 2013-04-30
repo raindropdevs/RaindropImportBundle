@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="raindrop_import.converter.class">Raindrop\ImportBundle\Util\CaseConverter</parameter>
+        <parameter key="raindrop_import.reader.class">Raindrop\ImportBundle\Util\Reader</parameter>
+        <parameter key="raindrop_import.field_retriever.class">Raindrop\ImportBundle\Util\FieldRetriever</parameter>
+        <parameter key="raindrop_import.importer.class">Raindrop\ImportBundle\Import\Importer</parameter>
+        <parameter key="raindrop_import.zip_file_loader.class">Raindrop\ImportBundle\ZipLoader\ZipFileLoader</parameter>
+    </parameters>
+
+    <services>
+        <service id="raindrop_import.converter" class="%raindrop_import.converter.class%" />
+
+        <service id="raindrop_import.reader" class="%raindrop_import.reader.class%">
+            <argument type="service" id="raindrop_import.converter" />
+        </service>
+
+        <service id="raindrop_import.field_retriever" class="%raindrop_import.field_retriever.class%">
+            <argument type="service" id="annotation_reader" />
+            <argument type="service" id="raindrop_import.converter" />
+        </service>
+
+        <service id="raindrop_import.zip_file_loader" class="%raindrop_import.zip_file_loader.class%">
+            <argument>/tmp</argument>
+            <argument>csv</argument>
+            <argument>yml</argument>
+            <argument>zip</argument>
+        </service>
+    </services>
+</container>
