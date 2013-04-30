@@ -28,16 +28,6 @@ class ZipCatalogue implements ZipCatalogueInterface
      *
      * @api
      */
-    public function getCategories()
-    {
-        return array_keys($this->zips);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @api
-     */
     public function all($category = null)
     {
         if (null === $category) {

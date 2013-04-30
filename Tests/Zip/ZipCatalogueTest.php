@@ -9,13 +9,6 @@ use Raindrop\ImportBundle\Zip\ZipCatalogue;
  */
 class ZipCatalogueTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetCategories()
-    {
-        $catalogue = new ZipCatalogue(array('category1' => array(), 'category2' => array()));
-
-        $this->assertEquals(array('category1', 'category2'), $catalogue->getCategories());
-    }
-
     public function testAll()
     {
         $catalogue = new ZipCatalogue($zips = array('category1' => array('foo' => 'foo'), 'category2' => array('bar' => 'bar')));

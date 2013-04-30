@@ -8,15 +8,6 @@ namespace Raindrop\ImportBundle\Zip;
 interface ZipCatalogueInterface
 {
     /**
-     * Gets the categories.
-     *
-     * @return array An array of categories
-     *
-     * @api
-     */
-    public function getCategories();
-
-    /**
      * Gets the zip files within a given category.
      *
      * If $category is null, it returns all zip.
