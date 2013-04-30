@@ -92,7 +92,7 @@ class Importer
      */
     public function import()
     {
-        while ($row = $this->reader->getRow()) {
+        while ($row = $this->getRow()) {
             if (($this->importCount % $this->batchSize) == 0) {
                 $this->addRow($row, true);
             } else {
