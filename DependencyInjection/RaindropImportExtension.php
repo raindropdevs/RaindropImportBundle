@@ -24,5 +24,7 @@ class RaindropImportExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        $container->setParameter('raindrop_import.tmp_upload_dir', $config['tmp_upload_dir']);
     }
 }
