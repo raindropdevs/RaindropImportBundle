@@ -8,15 +8,6 @@ namespace Raindrop\ImportBundle\Zip;
 interface ZipCatalogueInterface
 {
     /**
-     * Gets the catalogue locale.
-     *
-     * @return string The locale
-     *
-     * @api
-     */
-    public function getLocale();
-
-    /**
      * Gets the categories.
      *
      * @return array An array of categories
