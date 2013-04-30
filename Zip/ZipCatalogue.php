@@ -9,41 +9,18 @@ use Raindrop\ImportBundle\Zip\ZipCatalogueInterface;
  */
 class ZipCatalogue implements ZipCatalogueInterface
 {
-    private $locale;
     private $zips = array();
 
     /**
      * Constructor.
      *
-     * @param string $locale The locale
-     * @param array  $zips   An array of zip files classified by category
+     * @param array $zips An array of zip files classified by category
      *
      * @api
      */
-    public function __construct($locale = 'en', array $zips = array())
+    public function __construct(array $zips = array())
     {
-        $this->locale = $locale;
         $this->zips = $zips;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @api
-     */
-    public function getLocale()
-    {
-        return $this->locale;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @api
-     */
-    public function getCategories()
-    {
-        return array_keys($this->zips);
     }
 
     /**
