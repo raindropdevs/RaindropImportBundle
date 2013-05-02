@@ -26,5 +26,9 @@ class RaindropImportExtension extends Extension
         $loader->load('services.xml');
 
         $container->setParameter('raindrop_import.tmp_upload_dir', $config['tmp_upload_dir']);
+        $container->setParameter('raindrop_import.web_upload_dir', $config['web_upload_dir']);
+        $container->setParameter('raindrop_import.resource_extension', $config['resource_extension']);
+        $container->setParameter('raindrop_import.config_extension', $config['config_extension']);
+        $container->setParameter('raindrop_import.media_extension', $config['media_extension']);
     }
 }

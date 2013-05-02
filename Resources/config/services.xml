@@ -25,10 +25,10 @@
         </service>
 
         <service id="raindrop_import.zip_file_loader" class="%raindrop_import.zip_file_loader.class%">
-            <argument>/tmp</argument>
-            <argument>csv</argument>
-            <argument>yml</argument>
-            <argument>zip</argument>
+            <argument>%raindrop_import.tmp_upload_dir%</argument>
+            <argument>%raindrop_import.resource_extension%</argument>
+            <argument>%raindrop_import.config_extension%</argument>
+            <argument>%raindrop_import.media_extension%</argument>
         </service>
     </services>
 </container>

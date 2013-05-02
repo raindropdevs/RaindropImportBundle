@@ -14,15 +14,15 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class Importer
 {
-    protected $fields;
-    protected $metadata;
     protected $reader;
-    protected $batchSize = 20;
-    protected $importCount = 0;
+    protected $dispatcher;
     protected $caseConverter;
     protected $objectManager;
     protected $adapter;
+    protected $batchSize = 20;
+    protected $importCount = 0;
     protected $config;
+    protected $results = array();
 
     /**
      * @param CsvReader       $reader        The csv reader
@@ -88,11 +88,11 @@ class Importer
     /**
      * Import the csv and persist to database
      *
-     * @return true if successful
+     * @return array adapter results array
      */
     public function import()
     {
-        while ($row = $this->reader->getRow()) {
+        while ($row = $this->getRow()) {
             if (($this->importCount % $this->batchSize) == 0) {
                 $this->addRow($row, true);
             } else {
@@ -105,7 +105,7 @@ class Importer
         // one last flush to make sure no persisted objects get left behind
         $this->objectManager->flush();
 
-        return true;
+        return $this->results;
     }
 
     /**
@@ -116,7 +116,7 @@ class Importer
      */
     private function addRow($row, $andFlush = true)
     {
-        $this->adapter->import($row, $this->config);
+        $this->results[] = $this->adapter->import($row, $this->config);
 
         $entity = $this->adapter->getObject();
 

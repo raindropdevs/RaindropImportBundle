@@ -50,7 +50,7 @@ class ImporterTest extends \PHPUnit_Framework_TestCase
     public function testImport()
     {
         $this->assertEquals(
-            true,
+            array(null, null, null),
             $this->importer->import()
         );
 

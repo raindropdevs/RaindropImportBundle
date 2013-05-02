@@ -11,24 +11,24 @@ use Symfony\Component\Finder\Finder;
 class ZipFileLoader implements LoaderInterface
 {
     private $destination;
-    private $resource;
-    private $config;
-    private $zip;
+    private $resourceExtension;
+    private $configExtension;
+    private $zipExtension;
 
     /**
      * Constructor.
      *
      * @param string $destination
-     * @param string $csvExtension
-     * @param string $ymlExtension
-     * @param string $zipExtension
+     * @param string $resourceExtension
+     * @param string $configurationExtension
+     * @param string $mediaExtension
      */
-    public function __construct($destination = '/tmp', $csvExtension = 'csv', $ymlExtension = 'yml', $zipExtension = 'zip')
+    public function __construct($destination = '/tmp', $resourceExtension = 'csv', $configurationExtension = 'yml', $mediaExtension = 'zip')
     {
         $this->destination = $destination;
-        $this->resource = $csvExtension;
-        $this->config = $ymlExtension;
-        $this->zip = $zipExtension;
+        $this->resourceExtension = $resourceExtension;
+        $this->configExtension = $configurationExtension;
+        $this->zipExtension = $mediaExtension;
     }
 
     /**
@@ -64,13 +64,13 @@ class ZipFileLoader implements LoaderInterface
 
                 // add resources, config and media files to Zip obj
                 switch ($fileInfo['extension']) {
-                    case $this->resource:
+                    case $this->resourceExtension:
                         $zipFile->addResource($file->getPathName());
                         break;
-                    case $this->config:
+                    case $this->configExtension:
                         $zipFile->setConfig($file->getPathName());
                         break;
-                    case $this->zip:
+                    case $this->zipExtension:
                         $zipFile->setMedia($file->getPathName());
                         break;
                     default:

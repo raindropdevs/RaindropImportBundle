@@ -26,7 +26,11 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('tmp_upload_dir')->defaultValue('%kernel.root_dir%/../web/uploads/tmp/')->cannotBeEmpty()->end()
+                ->scalarNode('tmp_upload_dir')->defaultValue('/tmp')->cannotBeEmpty()->end()
+                ->scalarNode('web_upload_dir')->defaultValue('%kernel.root_dir%/../web')->cannotBeEmpty()->end()
+                ->scalarNode('resource_extension')->defaultValue('csv')->cannotBeEmpty()->end()
+                ->scalarNode('config_extension')->defaultValue('yml')->cannotBeEmpty()->end()
+                ->scalarNode('media_extension')->defaultValue('zip')->cannotBeEmpty()->end()
             ->end()
         ->end();
 
