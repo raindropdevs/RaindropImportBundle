@@ -10,6 +10,7 @@
         <parameter key="raindrop_import.field_retriever.class">Raindrop\ImportBundle\Util\FieldRetriever</parameter>
         <parameter key="raindrop_import.importer.class">Raindrop\ImportBundle\Import\Importer</parameter>
         <parameter key="raindrop_import.zip_file_loader.class">Raindrop\ImportBundle\ZipLoader\ZipFileLoader</parameter>
+        <parameter key="raindrop_import.manager.class">Raindrop\ImportBundle\Manager\Manager</parameter>
     </parameters>
 
     <services>
