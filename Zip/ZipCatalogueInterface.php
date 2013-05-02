@@ -2,64 +2,54 @@
 
 namespace Raindrop\ImportBundle\Zip;
 
+use Raindrop\ImportBundle\Zip\Zip;
+
 /**
  * ZipCatalogueInterface
  */
 interface ZipCatalogueInterface
 {
     /**
-     * Gets the zip files within a given category.
+     * Gets the zip files within a given index.
      *
-     * If $category is null, it returns all zip.
+     * If $index is null, it returns all Zip objects.
      *
-     * @param string $category The category name
+     * @param string $index The array index
      *
-     * @return array An array of zip files
-     *
-     * @api
-     */
-    public function all($category = null);
-
-    /**
-     * Sets a zip.
-     *
-     * @param string $id       The zip id
-     * @param string $zip      The zip
-     * @param string $category The category name
+     * @return array An array of Zip objects
      *
      * @api
      */
-    public function set($id, $zip, $category);
+    public function all($index = null);
 
     /**
      * Gets a zip.
      *
-     * @param string $id       The zip id
-     * @param string $category The category name
+     * @param string $index The Zip object index
      *
      * @return string The zip
      *
      * @api
      */
-    public function get($id, $category);
+    public function get($index);
 
     /**
-     * Sets zips for a given category.
+     * Sets a Zip object for a given index.
      *
-     * @param array  $zips     An array of zips
-     * @param string $category The category name
+     * @param array  $zip   A Zip object
+     * @param string $index The array index
      *
      * @api
      */
-    public function replace($zips, $category);
+    public function replace($zip, $index);
 
     /**
-     * Adds zip for a given category.
+     * Adds zip for a given index.
      *
-     * @param array  $zips     An array of zips
-     * @param string $category The domain name
+     * @param array  $zip   A Zip object
+     * @param string $index The array index
      *
      * @api
      */
-    public function add($zips, $category);
+    public function add($zip, $index);
 }

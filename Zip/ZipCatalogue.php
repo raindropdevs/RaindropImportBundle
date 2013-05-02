@@ -2,6 +2,7 @@
 
 namespace Raindrop\ImportBundle\Zip;
 
+use Raindrop\ImportBundle\Zip\Zip;
 use Raindrop\ImportBundle\Zip\ZipCatalogueInterface;
 
 /**
@@ -14,7 +15,7 @@ class ZipCatalogue implements ZipCatalogueInterface
     /**
      * Constructor.
      *
-     * @param array $zips An array of zip files classified by category
+     * @param array $zips An array of Zip objects
      *
      * @api
      */
@@ -28,13 +29,13 @@ class ZipCatalogue implements ZipCatalogueInterface
      *
      * @api
      */
-    public function all($category = null)
+    public function all($index = null)
     {
-        if (null === $category) {
+        if (null === $index) {
             return $this->zips;
         }
 
-        return isset($this->zips[$category]) ? $this->zips[$category] : array();
+        return isset($this->zips[$index]) ? $this->zips[$index] : array();
     }
 
     /**
@@ -42,23 +43,13 @@ class ZipCatalogue implements ZipCatalogueInterface
      *
      * @api
      */
-    public function set($id, $zip, $category)
+    public function get($index)
     {
-        $this->add(array($id => $zip), $category);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @api
-     */
-    public function get($id, $category)
-    {
-        if (isset($this->zips[$category][$id])) {
-            return $this->zips[$category][$id];
+        if (isset($this->zips[$index])) {
+            return $this->zips[$index];
         }
 
-        return $id;
+        return $index;
     }
 
     /**
@@ -66,11 +57,11 @@ class ZipCatalogue implements ZipCatalogueInterface
      *
      * @api
      */
-    public function replace($zips, $category)
+    public function replace($zip, $index)
     {
-        $this->zips[$category] = array();
+        $this->zips[$index] = array();
 
-        $this->add($zips, $category);
+        $this->add($zip, $index);
     }
 
     /**
@@ -78,12 +69,12 @@ class ZipCatalogue implements ZipCatalogueInterface
      *
      * @api
      */
-    public function add($zips, $category)
+    public function add($zip, $index)
     {
-        if (!isset($this->zips[$category])) {
-            $this->zips[$category] = $zips;
+        if (!isset($this->zips[$index])) {
+            $this->zips[$index] = $zip;
         } else {
-            $this->zips[$category] = array_replace($this->zips[$category], $zips);
+            $this->zips[$index] = $zip;
         }
     }
 }
