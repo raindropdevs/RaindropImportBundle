@@ -59,11 +59,9 @@ class ZipFileLoader implements LoaderInterface
             $finder->files()->in($destination);
 
             foreach ($finder as $file) {
-                // get file info
-                $fileInfo = pathinfo($file->getPathName());
 
                 // add resources, config and media files to Zip obj
-                switch ($fileInfo['extension']) {
+                switch ($file->getExtension()) {
                     case $this->resourceExtension:
                         $zipFile->addResource($file->getPathName());
                         break;
