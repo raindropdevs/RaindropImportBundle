@@ -121,8 +121,8 @@ class Importer
         $entity = $this->adapter->getObject();
 
         if (null !== $entity) {
-            $this->dispatcher->dispatch('raindrop_import.row_added', new RowAddedEvent($entity, $row, $this->config));
             $this->objectManager->persist($entity);
+            $this->dispatcher->dispatch('raindrop_import.row_added', new RowAddedEvent($entity, $row, $this->config));
         }
 
         if ($andFlush) {
