@@ -4,6 +4,7 @@ namespace Raindrop\ImportBundle\Manager;
 
 use Raindrop\ImportBundle\ZipLoader\ZipFileLoader;
 use Raindrop\ImportBundle\Import\Importer;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Raindrop\ImportBundle\Exception\NotFoundResourceException;
 
@@ -18,9 +19,9 @@ class Manager
     protected $zipFileLoader;
 
     /**
-     * @var Raindrop\ImportBundle\Import\Importer
+     * @var Symfony\Component\DependencyInjection\ContainerInterface
      */
-    protected $importer;
+    protected $container;
 
     /**
      * @var string
@@ -44,10 +45,10 @@ class Manager
      * @param Importer      $importer
      * @param string        $destination
      */
-    public function __construct(ZipFileLoader $zipFileLoader, Importer $importer, $destination)
+    public function __construct(ZipFileLoader $zipFileLoader, ContainerInterface $container, $destination)
     {
         $this->zipFileLoader = $zipFileLoader;
-        $this->importer = $importer;
+        $this->container = $container;
         $this->destination = $destination;
     }
 
@@ -68,6 +69,13 @@ class Manager
         $zip = $this->zipFileLoader->load($resource);
 
         $config = $zip->getConfig();
+
+        // retrieve adapter
+        $adapterId = "fendi_collection.{$config['adapter']}.importer";
+        if (!$this->container->has($adapterId)) {
+            throw new \Exception("The type {$adapterId} is not found as a valid import manager");
+        }
+        $this->importer = $this->container->get($adapterId);
 
         // extract media files
         $path = $this->destination . '/uploads/' . $config['path'];
