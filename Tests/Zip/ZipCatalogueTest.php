@@ -27,7 +27,7 @@ class ZipCatalogueTest extends \PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        $catalogue = new ZipCatalogue(array($this->getZipMock(), $this->mockZip));
+        $catalogue = new ZipCatalogue(array($this->zip, $this->mockZip));
 
         $this->assertEquals($this->zip, $catalogue->get(0));
         $this->assertEquals($this->mockZip, $catalogue->get(1));
@@ -35,7 +35,7 @@ class ZipCatalogueTest extends \PHPUnit_Framework_TestCase
 
     public function testAdd()
     {
-        $catalogue = new ZipCatalogue(array($this->getZipMock(), $this->mockZip));
+        $catalogue = new ZipCatalogue(array($this->zip, $this->mockZip));
 
         $catalogue->add($this->anotherMockZip, 2);
         $this->assertEquals($this->zip, $catalogue->get(0));
