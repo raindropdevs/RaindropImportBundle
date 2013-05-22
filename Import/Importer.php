@@ -93,13 +93,10 @@ class Importer
     public function import()
     {
         while ($row = $this->getRow()) {
-            if (($this->importCount % $this->batchSize) == 0) {
-                $this->addRow($row, true);
-            } else {
-                $this->addRow($row, false);
-            }
-
+            $this->addRow($row, true);
+            $this->objectManager->clear();
             $this->importCount++;
+            $this->memUsage();
         }
 
         // one last flush to make sure no persisted objects get left behind
@@ -114,7 +111,7 @@ class Importer
      * @param array   $row      An array of data
      * @param boolean $andFlush Flush the ObjectManager
      */
-    private function addRow($row, $andFlush = true)
+    private function addRow($row)
     {
         $this->results[] = $this->adapter->import($row, $this->config);
 
@@ -122,11 +119,10 @@ class Importer
 
         if (null !== $entity) {
             $this->objectManager->persist($entity);
-            $this->dispatcher->dispatch('raindrop_import.row_added', new RowAddedEvent($entity, $row, $this->config));
-        }
-
-        if ($andFlush) {
             $this->objectManager->flush();
+
+            $this->dispatcher->dispatch('raindrop_import.row_added', new RowAddedEvent($entity, $row, $this->config));
+
         }
     }
 
@@ -138,5 +134,16 @@ class Importer
     public function getImportCount()
     {
         return $this->importCount;
+    }
+
+    protected function memUsage() {
+        echo $this->formatSize(memory_get_usage(true)) . "\n";
+    }
+
+    protected function formatSize($bytes)
+    {
+        $types = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB' );
+        for( $i = 0; $bytes >= 1024 && $i < ( count( $types ) -1 ); $bytes /= 1024, $i++ );
+                return( round( $bytes, 2 ) . " " . $types[$i] );
     }
 }
