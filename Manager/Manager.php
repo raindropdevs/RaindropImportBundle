@@ -80,7 +80,10 @@ class Manager
         // extract media files
         $path = $this->destination . '/uploads/' . $config['path'];
         if (!file_exists($path)) mkdir($path, 0777, true);
-        $zip->extractMedia($path);
+
+        if ($zip->getMedia()) {
+            $zip->extractMedia($path);
+        }
 
         // import each resource file
         foreach ($zip->getResources() as $resource) {
