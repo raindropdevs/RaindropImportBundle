@@ -60,8 +60,10 @@ class ZipFileLoader implements LoaderInterface
 
             foreach ($finder as $file) {
 
+                $extension = pathinfo($file, PATHINFO_EXTENSION);
+
                 // add resources, config and media files to Zip obj
-                switch ($file->getExtension()) {
+                switch ($extension) {
                     case $this->resourceExtension:
                         $zipFile->addResource($file->getPathName());
                         break;
