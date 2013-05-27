@@ -136,7 +136,8 @@ class Importer
         return $this->importCount;
     }
 
-    protected function memUsage() {
+    protected function memUsage()
+    {
         echo $this->formatSize(memory_get_usage(true)) . "\n";
     }
 
@@ -144,6 +145,7 @@ class Importer
     {
         $types = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB' );
         for( $i = 0; $bytes >= 1024 && $i < ( count( $types ) -1 ); $bytes /= 1024, $i++ );
+
                 return( round( $bytes, 2 ) . " " . $types[$i] );
     }
 }
