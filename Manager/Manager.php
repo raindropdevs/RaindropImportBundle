@@ -77,11 +77,11 @@ class Manager
         }
         $this->importer = $this->container->get($adapterId);
 
-        // extract media files
-        $path = $this->destination . '/uploads/' . $config['path'];
-        if (!file_exists($path)) mkdir($path, 0777, true);
-
         if ($zip->getMedia()) {
+            // extract media files
+            $path = $this->destination . '/uploads/' . $config['path'];
+            if (!file_exists($path)) mkdir($path, 0777, true);
+
             $zip->extractMedia($path);
         }
 
