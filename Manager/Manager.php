@@ -71,7 +71,7 @@ class Manager
         $config = $zip->getConfig();
 
         // retrieve adapter
-        $adapterId = "fendi_collection.{$config['adapter']}.importer";
+        $adapterId = "collection.{$config['adapter']}.importer";
         if (!$this->container->has($adapterId)) {
             throw new \Exception("The type {$adapterId} is not found as a valid import manager");
         }
