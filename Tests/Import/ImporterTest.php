@@ -39,7 +39,7 @@ class ImporterTest extends \PHPUnit_Framework_TestCase
         $import->expects($this->exactly(3))
             ->method('getObject');
 
-        $this->importer = new Importer($reader, $dispatcher, $caseConverter, $objectManager, $import, 5);
+        $this->importer = new Importer($reader, $dispatcher, $caseConverter, $objectManager, $import, 5, 'event_name');
 
         $this->importer->init(__DIR__ . '/../Fixtures/import.csv', array(), ',', 'title');
     }

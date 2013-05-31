@@ -22,6 +22,7 @@ class Importer
     protected $batchSize = 20;
     protected $importCount = 0;
     protected $config;
+    protected $eventLabel;
     protected $results = array();
 
     /**
@@ -31,6 +32,7 @@ class Importer
      * @param ObjectManager   $objectManager The Doctrine Object Manager
      * @param ImportInterface $adapter       The adapter used to import a row
      * @param int             $batchSize     The batch size before flushing & clearing the om
+     * @param string          $eventLabel    The name of the event to be dispatched
      */
     public function __construct(Reader $reader, EventDispatcherInterface $dispatcher, CaseConverter $caseConverter, ObjectManager $objectManager, ImportInterface $adapter, $batchSize, $eventLabel)
     {
@@ -50,8 +52,6 @@ class Importer
      * @param array  $config       The array with configuration infos
      * @param string $delimiter    The csv's delimiter
      * @param string $headerFormat The header case format
-     *
-     * @return boolean true if successful
      */
     public function init($file, array $config = array(), $delimiter = ',', $headerFormat = 'title')
     {
@@ -109,8 +109,7 @@ class Importer
     /**
      * Add Csv row to db
      *
-     * @param array   $row      An array of data
-     * @param boolean $andFlush Flush the ObjectManager
+     * @param array $row An array of data
      */
     private function addRow($row)
     {
@@ -147,6 +146,6 @@ class Importer
         $types = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB' );
         for( $i = 0; $bytes >= 1024 && $i < ( count( $types ) -1 ); $bytes /= 1024, $i++ );
 
-                return( round( $bytes, 2 ) . " " . $types[$i] );
+        return( round( $bytes, 2 ) . " " . $types[$i] );
     }
 }
