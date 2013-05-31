@@ -32,7 +32,7 @@ class Importer
      * @param ImportInterface $adapter       The adapter used to import a row
      * @param int             $batchSize     The batch size before flushing & clearing the om
      */
-    public function __construct(Reader $reader, EventDispatcherInterface $dispatcher, CaseConverter $caseConverter, ObjectManager $objectManager, ImportInterface $adapter, $batchSize)
+    public function __construct(Reader $reader, EventDispatcherInterface $dispatcher, CaseConverter $caseConverter, ObjectManager $objectManager, ImportInterface $adapter, $batchSize, $eventLabel)
     {
         $this->reader = $reader;
         $this->dispatcher = $dispatcher;
@@ -40,6 +40,7 @@ class Importer
         $this->objectManager = $objectManager;
         $this->adapter = $adapter;
         $this->batchSize = $batchSize;
+        $this->eventLabel = $eventLabel;
     }
 
     /**
@@ -121,7 +122,7 @@ class Importer
             $this->objectManager->persist($entity);
             $this->objectManager->flush();
 
-            $this->dispatcher->dispatch('raindrop_import.row_added', new RowAddedEvent($entity, $row, $this->config));
+            $this->dispatcher->dispatch($this->eventLabel, new RowAddedEvent($entity, $row, $this->config));
 
         }
     }

@@ -71,17 +71,17 @@ class Manager
         $config = $zip->getConfig();
 
         // retrieve adapter
-        $adapterId = "fendi_collection.{$config['adapter']}.importer";
+        $adapterId = "collection.{$config['adapter']}.importer";
         if (!$this->container->has($adapterId)) {
             throw new \Exception("The type {$adapterId} is not found as a valid import manager");
         }
         $this->importer = $this->container->get($adapterId);
 
-        // extract media files
-        $path = $this->destination . '/uploads/' . $config['path'];
-        if (!file_exists($path)) mkdir($path, 0777, true);
-
         if ($zip->getMedia()) {
+            // extract media files
+            $path = $this->destination . '/uploads/' . $config['path'];
+            if (!file_exists($path)) mkdir($path, 0777, true);
+
             $zip->extractMedia($path);
         }
 
