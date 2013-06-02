@@ -69,4 +69,13 @@ abstract class BaseAdapter implements ImportInterface
     {
         $this->entityRepository = $entityRepository;
     }
+
+    protected function getConfigProperty($config, $property, $default)
+    {
+        if (isset($config[$property])) {
+            return $config[$property];
+        }
+
+        return $default;
+    }
 }
