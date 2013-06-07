@@ -78,7 +78,7 @@ class CaseConverter
      */
     public function convertToTitleCase($input)
     {
-        $input = ucfirst($input);
+        $input = ucfirst(strtolower($input));
 
         // camelCase
         $input = preg_replace_callback('/([A-Z])/', create_function('$c', 'return " " . ucfirst($c[1]);'), $input);
